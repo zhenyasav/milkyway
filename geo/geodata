@@ -1,0 +1,4 @@
+ogr2ogr -f geoJSON -where "ADM0_A3 NOT IN ('ATA')" countries.json ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+ogr2ogr -f geoJSON -where "ADM0_A3 NOT IN ('ATA') AND SCALERANK < 2" places.json ne_110m_populated_places/ne_110m_populated_places.shp
+topojson -o ../public/world.json --id-property adm0_a3 --properties name=NAME -- countries.json places.json
+rm countries.json places.json 

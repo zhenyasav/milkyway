@@ -1,0 +1,44 @@
+@import '../const.import.less';
+
+.apps {
+
+	@size: 32%;
+	line-height: 100%;
+
+	.app {
+		width: @size;
+		max-width: 300px;
+		height: 200px;
+		border: 1px solid @lightgray;
+		position: relative;
+		display: inline-block;
+		margin: 4px 5px;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center top;
+
+		.overlay {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 10px 15px;
+			color: @white;
+
+			&.fade {
+				min-height: 30%;
+				.gradient(fade(@black, 0), fade(@black, 40%));
+			}
+		}
+
+		&.light {
+			.overlay {
+				color: @dark;
+				&.fade {
+					min-height: 50%;
+					.gradient(fade(@white, 0), fade(@white, 100%));
+				}
+			}
+		}
+	}
+}

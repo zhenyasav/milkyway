@@ -1,0 +1,3 @@
+[submodule "packages/boilerplate"]
+	path = packages/boilerplate
+	url = https://github.com/zhenyasav/meteor-boilerplate
