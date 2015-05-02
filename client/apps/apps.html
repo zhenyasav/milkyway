@@ -1,14 +1,20 @@
 <template name="apps">
 	<div class="apps">
+	<h3>Apps</h3>
 	{{#each apps}}{{>app}}{{/each}}
 	</div>
 </template>
 
-<template name="app">
-	<div class="app {{classes}}" style="background-image:url(/screenshots/{{name}}.png)">
+<!-- <template name="app">
+	<a class="app {{classes}}" href="/apps/{{name}}">
+		<div class="image" style="background-image:url(/screenshots/{{name}}.png)"></div>
 		<div class="overlay fade"></div>
 		<div class="overlay">
-			<h3 class="name">{{name}}</h3>
+			<h3 class="name"><span class="status ok"></span><span>{{name}}</span></h3>
 		</div>
-	</div>
+	</a>
+</template> -->
+
+<template name="app">
+	<a class="app {{classes}}" href="/apps/{{name}}">{{name}}</a>
 </template>

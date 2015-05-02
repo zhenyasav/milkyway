@@ -1,44 +1,37 @@
 @import '../const.import.less';
 
 .apps {
+	margin-top: 20px;
 
-	@size: 32%;
-	line-height: 100%;
+	h3, .app {
+		padding: 10px 20px;
+	}
 
 	.app {
-		width: @size;
-		max-width: 300px;
-		height: 200px;
+		display: block;
+
+		color: @darkgray;
 		border: 1px solid @lightgray;
-		position: relative;
-		display: inline-block;
-		margin: 4px 5px;
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center top;
+		
+		text-decoration: none;
 
-		.overlay {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			padding: 10px 15px;
-			color: @white;
+		.transition(all 350ms ease-in-out);
 
-			&.fade {
-				min-height: 30%;
-				.gradient(fade(@black, 0), fade(@black, 40%));
-			}
+		.no-touch &:hover {
+			background-color: @light;
+			.transition(all 50ms ease-in-out);
 		}
 
-		&.light {
-			.overlay {
-				color: @dark;
-				&.fade {
-					min-height: 50%;
-					.gradient(fade(@white, 0), fade(@white, 100%));
-				}
-			}
+		&:active,
+		.no-touch &:active {
+			background-color: @dark;
+			color: @white;
+			border-color: @dark;
+			.transition(none);
+		}
+
+		&+.app {
+			border-top: none;
 		}
 	}
 }

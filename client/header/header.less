@@ -1,0 +1,35 @@
+@import '../const.import.less';
+
+.header {
+
+	padding: 15px 25px;
+	background-color: fade(@white, 60%);
+	.box-shadow(0px 1px 2px fade(@black, 10%));
+	// position: absolute;
+	// left: 0;
+	// top: 0;
+	// right: 0;
+	text-align: left;
+	position: relative;
+
+	>a {
+		display: inline-block;
+	}
+
+	img {
+		height: 50px;
+	}
+
+	.profile {
+		@p: 48px;
+		width: @p;
+		height: @p;
+		float: right;
+		background-image: url('/zhenya.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		.border-radius(@p);
+		.box-shadow(0px 1px 3px fade(@black, 20%));
+	}
+	
+}

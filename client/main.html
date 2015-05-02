@@ -2,12 +2,14 @@
 	<title>MilkyWay</title>
 </head>
 
-<body>
+<template name="main">
 	<div class="app">
 		{{>header}}
-		{{>world}}
-		<div class="container">
-			{{>apps}}
-		</div>
+		<div class="container"><div class="left">
+			{{>yield "left"}}
+		</div><div class="right">
+			{{>world}}
+			{{>yield}}
+		</div></div>
 	</div>
-</body>
+</template>

@@ -1,18 +1,64 @@
 @import '/packages/boilerplate/all.import.less';
+@import 'const.import.less';
 
 .reset();
 
-.app {
+body>.app {
 	padding-bottom: 60px;
 }
 
 .container {
-	//max-width: 70%;
 	margin: 0 auto;
+}
+
+@split: 25%;
+
+.right,
+.left {
+	display: inline-block;
+	//outline: 1px dashed #f00;
+	vertical-align: top;
+}
+
+.left {
+	width: @split;
+}
+
+.right {
+	width: 100% - @split;
+}
+
+.right .page {
+	margin: 5px;
 }
 
 h3 {
 	font-weight: 300;
 	font-size: 150%;
 	line-height: 150%;
+}
+
+.menu {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	top: 30%;
+	margin-right: 20px;
+
+	a {
+		display: inline-block;
+		height: 100%;
+		font-size: 80%;
+		font-weight: 500;
+		
+		padding: 10px;
+		text-transform: uppercase;
+		color: @dark;
+		text-decoration: none;
+		border-bottom: 3px solid transparent;
+
+		&.selected {
+			border-color: @meteor;
+		}
+	}
 }

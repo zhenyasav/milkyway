@@ -1,22 +1,13 @@
 [
 
 	name: 'zhenya.co'
-	url: 'http://zhenya.co'
 ,
-	name: 'SmokeFree'
-	url: 'http://smokefree.zhenya.co'
+	name: 'smokefree.zhenya.co'	
 ,
-	name: 'Slider'
-	url: 'http://slider.zhenya.co'
-	classes: 'light'
+	name: 'slider.zhenya.co'
 ,
-	name: 'Reveal'
-	url: 'http://reveal.zhenya.co'
-	classes: 'light'
+	name: 'reveal.zhenya.co'
 ,
-	name: 'Progress'
-	url: 'http://progress.zhenya.co'
-	classes: 'light'
-
+	name: 'progress.zhenya.co'
 
 ].map (a) -> Apps.insert a
