@@ -4,12 +4,34 @@
 
 <template name="main">
 	<div class="app">
-		{{>header}}
-		<div class="container"><div class="left">
-			{{>yield "left"}}
-		</div><div class="right">
-			{{>world}}
-			{{>yield}}
-		</div></div>
+		<div class="vertical menu left">
+			<div class="header">
+				<div class="logo"></div>
+				<a class="button settings"></a>
+			</div>
+			<div class="search">
+				<input type="text">
+				<a class="button search"></a>
+			</div>
+			
+			{{> apps}}
+			
+		</div><div class="container">
+			<div class="header">
+				<div class="title">{{currentRoute.title}}</div>
+				<div class="horizontal menu">
+					{{> menu_items}}
+				</div>
+			</div>
+			{{> yield}}
+		</div><div class="vertical menu right">
+			{{> menu_items}}
+		</div>
 	</div>
+</template>
+
+<template name="menu_items">
+	{{#each key_value currentRoute.menu}}
+	<a href="{{value}}">{{key}}</a>
+	{{/each}}
 </template>
