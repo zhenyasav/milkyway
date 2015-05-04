@@ -1,0 +1,53 @@
+<template name="allocation">
+	<div class="allocation">
+		<div class="header small">
+			<div class="title">
+				<span>Add servers in </span>
+				<select class="add-zone">
+					<option value="">Select region...</option>
+					{{#each zones}}
+					<option>{{.}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+		<div class="zones">
+			{{#each key_value availability}}
+			<div class="zone">
+				<div class="header small">
+					<h4 class="title">{{value.name}}</h4>
+					<a class="button xsmall ion-close delete"></a>
+					<div class="estimate">
+						<span class="small est">est.</span><span class="currency">$</span><span class="price">{{estimate}}</span><span class="small">/mo</span>
+					</div>
+
+				</div>
+				<div class="controls">
+					<div class="size">
+						<label>Instance size:</label>
+						<div class="radio">
+							<input id="inst_size_1x_{{key}}" type="radio" name="inst_size_{{key}}" {{checked 0}} value="0">
+							<label for="inst_size_1x_{{key}}">Normal</label>
+							<input id="inst_size_2x_{{key}}" type="radio" name="inst_size_{{key}}" {{checked 1}} value="1">
+							<label for="inst_size_2x_{{key}}">Large</label>
+						</div>
+					</div>
+					<div class="scale">
+						<label>Instance count:</label>
+						{{> slider min=minScale max=maxScale step=1 value=value.scale}}
+					</div>
+				</div>
+			</div>
+			{{else}}
+				<div class="empty">No availability zones configured</div>
+			{{/each}}
+		</div>
+		{{#if availability.length}}
+		<div class="total">
+			<div class="estimate">
+				<span class="est">Estimated total: </span><span class="currency">$</span><span class="price">{{totalEstimate}}</span><span class="small">/mo</span>
+			</div>
+		</div>
+		{{/if}}
+	</div>
+</template>

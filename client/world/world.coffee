@@ -25,6 +25,24 @@ Template.world.onRendered ->
 	margin = 0
 
 	draw = =>
+		resize = ->
+			svg.attr 'width', width = root.clientWidth - 2*margin
+			svg.attr 'height', height = 400 - 2*margin + 70
+
+			projection = d3.geo.mercator()
+			.scale 120
+			.translate [width/2, height/1.6]
+
+			path = d3.geo.path().projection projection
+			.pointRadius 3
+
+			cityPath = d3.geo.path().projection projection
+			.pointRadius 1
+
+			d3.selectAll('.country').attr 'd', path
+			d3.selectAll('.city').attr 'd', cityPath
+			d3.selectAll('.datacenter').attr 'd', path
+			
 		svg.selectAll '.country'
 		.data data.countries
 		.enter().append 'path'
@@ -58,26 +76,10 @@ Template.world.onRendered ->
 		.duration 1000
 		.attr 'opacity', 1
 
-		resize = ->
-			svg.attr 'width', width = root.clientWidth - 2*margin
-			svg.attr 'height', height = 440 - 2*margin
-
-			projection = d3.geo.mercator()
-			.scale 120
-			.translate [width/2, height/1.6]
-
-			path = d3.geo.path().projection projection
-			.pointRadius 3
-
-			cityPath = d3.geo.path().projection projection
-			.pointRadius 1
-
-			d3.selectAll('.country').attr 'd', path
-			d3.selectAll('.city').attr 'd', cityPath
-			d3.selectAll('.datacenter').attr 'd', path
+		
 
 		resize()
-		@onResize = _.debounce draw, 200
+		@onResize = _.debounce draw, 600
 		$(window).on 'resize', @onResize
 
 	if not data?.world

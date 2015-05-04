@@ -1,2 +1,3 @@
 if Meteor.isClient
-	@Apps = new Mongo.Collection null
+	@Apps = new Mongo.Collection null,
+		transform: (o) -> new App o

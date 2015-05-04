@@ -1,3 +1,6 @@
 [submodule "packages/boilerplate"]
 	path = packages/boilerplate
 	url = https://github.com/zhenyasav/meteor-boilerplate
+[submodule "packages/slider"]
+	path = packages/slider
+	url = https://github.com/zhenyasav/slider

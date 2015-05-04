@@ -2,3 +2,247 @@
 @import 'const.import.less';
 
 .reset();
+
+h1, h2, h3, h4 {
+	font-weight: 500;
+}
+
+.app {
+	height: 100%;
+}
+
+.app>* {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.link-list {
+	a {
+		display: block;
+
+		padding: 10px 20px;
+
+		color: @darkgray;
+		border: 1px solid @light;
+		border-right: none;
+		border-left: none;
+		
+		text-decoration: none;
+
+		.transition(all 350ms ease-in-out);
+
+		.no-touch &:hover {
+			background-color: @light;
+			.transition(all 50ms ease-in-out);
+		}
+
+		&:active,
+		.no-touch &:active {
+			background-color: @dark;
+			color: @white;
+			border-color: @dark;
+			.transition(none);
+		}
+
+		&+a {
+			border-top: none;
+		}
+	}
+}
+
+@sideMenu: 280px;
+
+.menu.left {
+	width: @sideMenu;
+	.user-select(none);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	background-color: @white;
+	border-right: 1px solid mix(@light, @lightgray, 50%);
+	.transition(all 350ms ease-in-out);
+	z-index: 1000;
+}
+
+.container {
+	width: ~"calc(100% - @{sideMenu})";
+	margin-left: @sideMenu;
+	min-height: 100%;
+	padding-bottom: 60px;
+}
+
+@navBreak: 800px;
+
+@media (min-width: @navBreak) {
+	.button.nav {
+		display: none;
+	}
+}
+
+@media (max-width: @navBreak) {
+	.container {
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.menu.left {
+		right: 100%;
+		left: auto;
+
+		&.showing {
+			.transform(translate3d(@sideMenu, 0, 0));
+		}
+	}
+}
+
+
+@menuBreak: 900px;
+
+.button.menu {
+	float: right;
+	cursor: pointer;
+	
+	@media (min-width: @menuBreak) {
+		display: none;
+	}
+}
+
+.vertical.menu.right {
+
+	@media (min-width: @menuBreak) {
+		display: none;
+	}
+
+	width: @sideMenu;
+	position: fixed;
+	left: 100%;
+	top: 0;
+	bottom: 0;
+
+	background-color: @white;
+
+	border-left: 1px solid mix(@light, @lightgray, 50%);
+
+	.transition(all 350ms ease-in-out);
+
+	&.showing {
+		.transform(translate3d(-@sideMenu, 0, 0));
+	}
+
+	a {
+		border-left: 3px solid transparent;
+
+		&.selected {
+			border-left-color: @meteor;
+		}
+	}
+
+}
+
+.horizontal.menu {
+	display: inline-block;
+
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin-right: 20px;
+
+	@media (max-width: @menuBreak) {
+		display: none;
+	}
+
+	a {
+		display: inline-block;
+		padding: 10px;
+		padding-bottom: 20px;
+		text-decoration: none;
+		border-bottom: 3px solid transparent;
+
+		&.selected {
+			border-color: @meteor;
+		}
+	}
+}
+
+.container .header .menu,
+.right.menu {
+	a {
+		color: @dark;
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 80%;
+	}
+}
+
+.header {
+	padding: 10px;
+	border-bottom: @light;
+	min-height: 70px;
+	position: relative;
+	.user-select(none);
+
+	>* {
+		vertical-align: middle;
+	}
+
+	.logo {
+		height: 40px;
+		margin: 5px;
+	}
+
+	.settings {
+		float: right;
+	}
+
+	.title {
+		display: inline-block;
+		line-height: 40px;
+		margin: 5px;
+		padding: 0px 10px;
+	}
+
+	&.small {
+		min-height: 30px;
+
+		.title {
+			line-height: 140%;
+		}
+	}
+}
+
+.container .header {
+	.gradient(@white, fade(@white, 60%));
+}
+
+.clearfix(header);
+
+.search {
+
+	position: relative;
+	padding: 0 15px;
+
+	input {
+		display: block;
+		width: 100%;
+		.border-radius(20px);
+		border: 1px solid @lightgray;
+		padding: 5px 15px;
+		padding-right: 35px;
+		font-size: 100%;
+		outline: none;
+	}
+
+	.search.button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 1px 16px;
+	}
+}
+
+.empty {
+	color: @gray;
+	padding: 20px;
+	text-align: center;
+}

@@ -1,0 +1,118 @@
+@import '../const.import.less';
+
+.allocation {
+
+	.zone {
+		padding: 10px 0;
+		border-bottom: 1px solid @light;
+
+		&:first-child {
+			border-top: 1px solid @light;
+		}
+
+		> * {
+			padding: 5px 10px; 
+			>* {
+				margin: 5px;
+				padding: 0 10px;
+			}
+		}
+
+		// .title {
+		// 	line-height: 150%;
+		// }
+
+		label {
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+
+		
+
+		.controls {
+			padding-top: 0;
+
+			// .slider {
+			// 	.track, .knob {
+			// 		border-color: @lightgray;
+			// 	}
+			// }
+		}
+
+		.size {
+			>label {
+				margin-right: 10px;
+			}
+			.radio {
+				display: inline-block;
+
+				input {
+					margin-left: 2.5px;
+				}
+
+				label {
+					margin: 0 2.5px;
+					color: @dark;
+				}
+			}
+		}
+
+		.size,
+		.scale {
+			label {
+				text-transform: uppercase;
+				font-size: 70%;
+				line-height: 150%;
+				color: @gray;
+				font-weight: 400;
+			}
+		}
+
+		.scale {
+			label {
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	.estimate {
+		float: right;
+		padding: 0 10px;
+		margin-right: 0;
+
+		.price {
+			color: @blue;
+			display: inline-block;
+			margin: 0 2px;
+		}
+
+		.small {
+			font-size: 60%;
+			text-transform: uppercase;
+		}
+
+		.est {
+			margin-right: 2px;
+		}
+	}
+
+	.button.delete {
+		float: right;
+		color: @gray;
+
+		&:active {
+			color: @white;
+		}
+	}
+
+	.total {
+		text-align: center;
+		padding: 20px;
+
+		.estimate {
+			margin-right: 29px;
+		}
+	}
+
+	.clearfix(total);
+}

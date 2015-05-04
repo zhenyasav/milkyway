@@ -1,37 +1,38 @@
 <head>
 	<title>MilkyWay</title>
+	<link rel="stylesheet" href="/fonts/galaxy/css/galaxy.css">
 </head>
 
 <template name="main">
 	<div class="app">
 		<div class="vertical menu left">
 			<div class="header">
-				<div class="logo"></div>
-				<a class="button settings"></a>
+				<img class="logo" src="/images/galaxy.svg">
+				<a class="button settings ion-ios-gear-outline"></a>
 			</div>
 			<div class="search">
 				<input type="text">
-				<a class="button search"></a>
+				<a class="button search small ion-ios-search"></a>
 			</div>
 			
 			{{> apps}}
 			
 		</div><div class="container">
 			<div class="header">
-				<div class="title">{{currentRoute.title}}</div>
+				<a class="button nav icon-galaxy"></a>
+				<h3 class="title">{{currentRoute.title}}</h3>
 				<div class="horizontal menu">
 					{{> menu_items}}
 				</div>
+				<a class="button ion-navicon menu"></a>
 			</div>
 			{{> yield}}
-		</div><div class="vertical menu right">
+		</div><div class="vertical menu right link-list">
 			{{> menu_items}}
 		</div>
 	</div>
 </template>
 
 <template name="menu_items">
-	{{#each key_value currentRoute.menu}}
-	<a href="{{value}}">{{key}}</a>
-	{{/each}}
+	{{#each key_value currentRoute.menu}}<a href="{{value}}" class="{{selected}}">{{capitalize key}}</a>{{/each}}
 </template>

@@ -3,35 +3,7 @@
 .apps {
 	margin-top: 20px;
 
-	h3, .app {
+	h3 {
 		padding: 10px 20px;
-	}
-
-	.app {
-		display: block;
-
-		color: @darkgray;
-		border: 1px solid @lightgray;
-		
-		text-decoration: none;
-
-		.transition(all 350ms ease-in-out);
-
-		.no-touch &:hover {
-			background-color: @light;
-			.transition(all 50ms ease-in-out);
-		}
-
-		&:active,
-		.no-touch &:active {
-			background-color: @dark;
-			color: @white;
-			border-color: @dark;
-			.transition(none);
-		}
-
-		&+.app {
-			border-top: none;
-		}
 	}
 }

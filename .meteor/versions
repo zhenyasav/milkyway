@@ -40,8 +40,10 @@ minimongo@1.0.8
 mobile-status-bar@1.0.3
 mongo@1.1.0
 mrt:topojson@1.6.8
+numeral:numeral@1.5.3
 observe-sequence@1.0.6
 ordered-dict@1.0.3
+pagebakers:ionicons@2.0.0
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
@@ -59,3 +61,4 @@ url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
 zhenya:boilerplate@0.0.4
+zhenya:slider@0.0.3

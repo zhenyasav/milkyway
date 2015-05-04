@@ -1,10 +1,8 @@
 <template name="apps">
-	<div class="apps">
+	<div class="apps link-list">
 		<h3>Apps</h3>
-		{{#each apps}}{{>app}}{{/each}}
+		{{#each apps}}
+		<a class="app" href="/apps/{{name}}">{{name}}</a>
+		{{/each}}
 	</div>
-</template>
-
-<template name="app">
-	<a class="app" href="/apps/{{name}}">{{name}}</a>
 </template>

@@ -1,0 +1,50 @@
+@import 'const.import.less';
+
+
+.button {
+	display: inline-block;
+	text-align: center;
+	cursor: pointer;
+	.transition(all 350ms ease-out);
+
+	background-position: center;
+	background-size: 60%;
+	background-repeat: no-repeat;
+
+	.size(@size, @padding) {
+		min-width: @size;
+		height: @size;
+		padding: @padding;
+		.border-radius(@size);
+		font-size: @size - 2 * @padding;
+		line-height: @size - 2 * @padding;
+	}
+	
+	.size(48px, 7px);
+
+	&.small {
+		.size(32px, 5px);
+	}
+
+	&.xsmall {
+		.size(24px, 3px);
+	}
+
+	&:active {
+		background-color: @black;
+		color: @white;
+		.transition(none);
+	}
+}
+
+&.icon-galaxy {
+	color: @meteor;
+	//border: 1px solid @meteor;
+
+	padding-top: 5px;
+	padding-left: 3px;
+
+	&:active {
+		background-color: @meteor;
+	}
+}
