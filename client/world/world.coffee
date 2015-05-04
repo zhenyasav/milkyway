@@ -1,16 +1,163 @@
 @data = data = {}
 
-dataCenters = [
+@dataCenters = dataCenters = [
 	'San Francisco'
+	'Vancouver'
+	'Washington, D.C.'
+	'Sao Paulo'
+	'Dublin'
+	'Berlin'
 	'Tokyo'
 	'Singapore'
 	'Sydney'
-	'Berlin'
-	'Dublin'
-	'Sao Paulo'
-	'Washington, D.C.'
-	'Vancouver'
 ]
+
+@dataCenterZones = dataCenterZones = [
+	'US Southwest'
+	'US Northwest'
+	'US East'
+	'South America'
+	'EU Atlantic'
+	'EU Mainland'
+	'Japan'
+	'Oceania'
+	'Australia'
+]
+
+randomRange = (low, high) -> Math.random() * (high - low) + low
+roundTo = (r, n) -> r * Math.floor n / r
+clamp = (l, h, n) ->
+	return l if n < l
+	return h if n > h
+	n
+
+makeData = (w) ->
+	w.objects.datacenters = _.clone w.objects.places
+
+	window.data = data =
+		world: w
+		countries: topojson.feature(w, w.objects.countries).features
+		cities: topojson.feature(w, w.objects.places).features
+
+	# filter places
+	filtered = _.filter w.objects.places.geometries, (g) -> 
+		g.properties.name in dataCenters
+	
+	w.objects.datacenters.geometries = filtered
+
+	data.datacenters = topojson.feature(w, w.objects.datacenters).features
+
+	makeTraffic()
+
+
+makeTraffic = ->
+
+	limits = 
+		minDistance: Math.PI * 0.3
+		normDistance: 200
+		time: 
+			min: -12
+			max: 0
+		latency:
+			median:
+				min: 100
+				max: 500
+			peak:
+				min: 400
+				max: 1400
+		dataCenters:
+			perApp:
+				min: 1
+				max: dataCenters.length * 0.3
+			normTrafficSources:
+				min: 0.05
+				max: 0.15
+		volume:
+			min: 10
+			max: 5000
+		errors:
+			min: 1
+			max: 20
+			prob: 0.1
+
+	latency = (d=limits.normDistance) ->
+		normDistance = d / limits.normDistance
+		peak = Math.round normDistance * randomRange limits.latency.peak.min, limits.latency.peak.max
+		median = Math.round normDistance * randomRange limits.latency.median.min, limits.latency.median.max
+		median = 0.7 * median + 0.3 * median * (peak - limits.latency.peak.min) / (limits.latency.peak.max - limits.latency.peak.min)
+		{peak, median}
+
+	distance = d3.geo.distance
+
+	data.distantCities = {}
+	data.datacenters.map (dataCentre) ->
+		data.distantCities[dataCentre.properties.name] = _.filter data.cities, (city) ->
+			limits.minDistance < distance dataCentre.geometry.coordinates, city.geometry.coordinates
+
+	Apps.find().map (app) ->
+		# allocate some servers in random data centers
+		sitesCount = Math.round randomRange limits.dataCenters.perApp.min, limits.dataCenters.perApp.max
+		dcSample = _.sample dataCenters, sitesCount
+		Apps.update app._id,
+			$set:
+				availability: dcSample.map (dataCenter, i) ->
+					name: dataCenterZones[dataCenters.indexOf(dataCenter)]
+					size: Math.round randomRange App.min.size, App.max.size
+					scale: clamp App.min.scale, App.max.scale, roundTo 5, randomRange App.min.scale, App.max.scale
+
+		# generate some traffic records
+
+		# traffic (hourly)
+			# app: appid
+			# latency:
+			# 	median: number
+			# 	peak: number
+			# hour: -time
+			# errors: count
+
+		[limits.time.min .. limits.time.max].map (hour) ->
+			Traffic.insert
+				app: app._id
+				latency: latency()
+				hour: hour
+				errors: if Math.random() > limits.errors.prob then 0 else Math.round randomRange limits.errors.min, limits.errors.max
+
+		# traffic (geographic, daily)
+			# app: appid
+			# from: city
+			# to: city
+			# latency:
+			# 	median: number
+			# 	peak: number
+			# volume: number
+
+		dcSampleFeatures = dcSample.map (dc) -> _.find data.datacenters, (d) -> dc is d.properties.name
+
+		dcSample.map (dc) -> 
+			destination = _.find data.datacenters, (d) -> d.properties.name is dc
+			cities = data.distantCities[destination.properties.name]
+
+			# to this destination there is a random selection of source traffic
+			citiesMin = Math.round cities.length * limits.dataCenters.normTrafficSources.min
+			citiesMax = Math.round cities.length * limits.dataCenters.normTrafficSources.max
+			citiesCount = Math.round randomRange citiesMin, citiesMax
+			citiesSample = _.sample cities, citiesCount
+
+			citiesSample.map (source) ->
+
+				# find closest datacentre
+				closestDestination = _.min dcSampleFeatures, (df) -> distance df.geometry.coordinates, source.geometry.coordinates
+
+				dist = distance closestDestination.geometry.coordinates, source.geometry.coordinates
+
+				Traffic.insert
+					app: app._id
+					from: source
+					to: closestDestination
+					distance: dist
+					latency: latency dist
+					volume: Math.round randomRange limits.volume.min, limits.volume.max
+
 
 Template.world.onDestroyed ->
 	$(window).off 'resize', @onResize
@@ -27,21 +174,27 @@ Template.world.onRendered ->
 	draw = =>
 		resize = ->
 			svg.attr 'width', width = root.clientWidth - 2*margin
-			svg.attr 'height', height = 400 - 2*margin + 70
+			svg.attr 'height', height = 360 - 2*margin + 70
 
 			projection = d3.geo.mercator()
 			.scale 120
-			.translate [width/2, height/1.6]
+			.translate [width/2, height/1.5]
 
 			path = d3.geo.path().projection projection
-			.pointRadius 3
+
+			dcPath = d3.geo.path().projection projection
+			.pointRadius 5
 
 			cityPath = d3.geo.path().projection projection
 			.pointRadius 1
 
+			trafficPath = d3.geo.path().projection projection
+			.pointRadius 2
+
 			d3.selectAll('.country').attr 'd', path
 			d3.selectAll('.city').attr 'd', cityPath
-			d3.selectAll('.datacenter').attr 'd', path
+			d3.selectAll('.datacenter').attr 'd', dcPath
+			d3.selectAll('.traffic').attr 'd', trafficPath
 			
 		svg.selectAll '.country'
 		.data data.countries
@@ -50,55 +203,93 @@ Template.world.onRendered ->
 		.attr 'opacity', 0
 		.on 'click', (d) -> console.log d.id
 		.transition()
-		.duration 1000
-		.delay (d, i) -> i * 1000 / data.countries.length
+		.duration 700
 		.attr 'opacity', 1
+		#.delay (d, i) -> i * 700 / data.countries.length
 
 		svg.selectAll '.city'
 		.data data.cities
 		.enter().append 'path'
 		.attr 'class', 'city'
 		.attr 'opacity', 0
+		.attr 'stroke-width', 5
 		.on 'click', (d) -> console.log d.properties.name
 		.transition()
-		.delay (d,i) -> 1000 + i * 1000 / data.cities.length
-		.duration 350
 		.attr 'opacity', 1
+		.attr 'stroke-width', 0
+		.duration 700
+		.delay 700
+		#.delay (d,i) -> 1000 + i * 3000 / data.cities.length
+		
+
+		geoTraffic = Traffic.find
+			app: @data._id
+			to: $ne: null
+		.fetch()
+
+		volumeExtent = d3.extent geoTraffic, (t) -> t.volume
+
+		trafficVolumeScale = d3.scale.linear()
+		.domain volumeExtent
+		.range [1, 5]
+
+		latencyExtent = d3.extent geoTraffic, (t) -> t.latency.peak
+
+		trafficLatencyScale = d3.scale.linear()
+		.domain latencyExtent
+		.range [0.1, 0.5]
+		# .range ["#FF9933", "#9400D3"]
+		
+		svg.selectAll '.traffic'
+		.data geoTraffic.map (traffic) ->
+			type: "LineString"
+			coordinates: [
+				traffic.from.geometry.coordinates
+				traffic.to.geometry.coordinates
+			]
+			volume: traffic.volume
+			latency: traffic.latency.peak
+		.enter()
+		.append 'path'
+		.attr 'class', 'traffic'
+		.attr 'opacity', 0
+		.attr 'stroke-width', (d) -> trafficVolumeScale d.volume
+		.transition()
+		.delay (d, i) -> 3000 + i * 3000 / geoTraffic.length
+		.duration 600
+		.attr 'opacity', (d) -> trafficLatencyScale d.latency
+
+
+		occupiedCities = Apps.findOne(@data._id)?.availability
+		.map (a) -> dataCenters[dataCenterZones.indexOf(a.name)]
 		
 		svg.selectAll '.datacenter'
 		.data data.datacenters
 		.enter().append 'path'
-		.attr 'class', 'datacenter'
+		.attr 'class', (d) -> "datacenter" + if d.properties.name in occupiedCities then " occupied" else ""
 		.attr 'opacity', 0
+		.attr 'stroke-width', 10
 		.on 'click', (d) -> console.log d.properties.name
 		.transition()
-		.delay (d,i) -> 2000 + i * 1000 / data.datacenters.length
+		.delay (d,i) -> 1000 + i * 2000 / data.datacenters.length
 		.duration 1000
 		.attr 'opacity', 1
+		.attr 'stroke-width', 1
 
-		
 
 		resize()
-		@onResize = _.debounce draw, 600
+		@onResize = _.debounce resize, 600
 		$(window).on 'resize', @onResize
+
+		Meteor.setTimeout =>
+			@$ '.world'
+			.addClass 'show-warnings'
+		, 7000
 
 	if not data?.world
 		d3.json '/world.json', (err, w) -> 
 			
-			w.objects.datacenters = _.clone w.objects.places
-			
-			window.data = data =
-				world: w
-				countries: topojson.feature(w, w.objects.countries).features
-				cities: topojson.feature(w, w.objects.places).features
-
-			# filter places
-			filtered = _.filter w.objects.places.geometries, (g) -> 
-				g.properties.name in dataCenters
-			
-			w.objects.datacenters.geometries = filtered
-
-			data.datacenters = topojson.feature(w, w.objects.datacenters).features
+			makeData w
 	
 			draw()
 	else 

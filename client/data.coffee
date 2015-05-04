@@ -1,5 +1,4 @@
 [
-
 	name: 'zhenya.co'
 ,
 	name: 'smokefree.zhenya.co'	

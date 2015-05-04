@@ -2,9 +2,11 @@ class @App
 
 	@min:
 		scale: 1
+		size: 0
 
 	@max:
 		scale: 150
+		size: 1
 
 	constructor: (o) ->
 		_.extend @, o

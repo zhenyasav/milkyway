@@ -1,14 +1,3 @@
-zones = [
-	'US North West'
-	'US South West'
-	'US East'
-	'South America'
-	'UK'
-	'Germany'
-	'Japan'
-	'Philipines'
-	'Australia'
-]
 
 prices = [0.05, 0.1] # $ per inst hour
 
@@ -27,7 +16,8 @@ Template.allocation.helpers
 
 	maxScale: -> App.max.scale
 
-	zones: -> zones
+	zones: ->
+		_.difference dataCenterZones, _.map @availability, (a) -> a.name
 
 	checked: (v) ->
 		checked: 'checked' if @value.size is v

@@ -2,6 +2,9 @@
 
 .world {
 	.user-select(none);
+	position: relative;
+	z-index: -1;
+
 	svg {
 		margin: 0 auto;
 		display: block;
@@ -15,11 +18,43 @@
 		}
 
 		.datacenter {
-			fill: @meteor;
+			stroke: @meteor;
+			fill: none;
+
+			&.occupied {
+				fill: @meteor;
+			}
 		}
 
 		.city {
 			fill: @blue;
+			stroke: @blue;
+		}
+
+		.traffic {
+			fill: none;
+			stroke: @orange;
+		}
+	}
+
+	.warning {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 5%;
+		text-align: center;
+		font-size: 60%;
+		color: @gray;
+		text-transform: uppercase;
+		opacity: 0;
+		.transition(all 650ms ease-in-out);
+		.transform(translate3d(0, 10px, 0));
+	}
+
+	&.show-warnings {
+		.warning {
+			opacity: 1;
+			.transform(translate3d(0,0,0));
 		}
 	}
 }
