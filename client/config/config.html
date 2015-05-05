@@ -1,1 +1,6 @@
-<template name="config"></template>
+<template name="config">
+	<div class="configuration">
+	<pre>Meteor.settings =</pre>
+		{{> CodeMirror id="config_code" options=cmOptions code=configuration}}
+	</div>
+</template>

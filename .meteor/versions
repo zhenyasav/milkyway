@@ -44,6 +44,7 @@ numeral:numeral@1.5.3
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 pagebakers:ionicons@2.0.0
+perak:codemirror@1.2.3
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5

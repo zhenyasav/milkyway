@@ -1,8 +1,12 @@
 <template name="apps">
+	<div class="search">
+		<input type="text">
+		<a class="button search small ion-ios-search"></a>
+	</div>
 	<div class="apps link-list">
 		<h3>Apps</h3>
-		{{#each apps}}
-		<a class="app" href="/apps/{{name}}">{{name}}</a>
+		{{#each key_value apps}}
+			<a class="app {{selected key}}" href="/apps/{{value.name}}">{{{emName}}}</a>
 		{{/each}}
 	</div>
 </template>

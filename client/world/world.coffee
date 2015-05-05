@@ -158,12 +158,37 @@ makeTraffic = ->
 					latency: latency dist
 					volume: Math.round randomRange limits.volume.min, limits.volume.max
 
+
+getTrafficScales = (geoTraffic) ->
+
+	volumeExtent = d3.extent geoTraffic, (t) -> t.volume
+
+	trafficVolumeScale = d3.scale.linear()
+	.domain volumeExtent
+	.range [1, 6]
+
+	latencyExtent = d3.extent geoTraffic, (t) -> t.latency.peak
+
+	trafficLatencyScale = d3.scale.linear()
+	.domain latencyExtent
+	.range [0.1, 0.5]
+
+	[trafficVolumeScale, trafficLatencyScale]
+
+
 Template.world.helpers
 
 	legendScales: ->
 		instance = Template.instance()
 		
-		[latency, volume] = [instance.trafficLatencyScale, instance.trafficVolumeScale]
+		_data = Template.currentData()
+
+		geoTraffic = Traffic.find 
+			app: _data?._id
+			to: $ne: null
+		.fetch()
+
+		[volume, latency] = getTrafficScales geoTraffic
 
 		if latency? and volume?
 			latencyTicks = latency.ticks 3
@@ -300,17 +325,7 @@ Template.world.onRendered ->
 			.fetch()
 
 
-			volumeExtent = d3.extent geoTraffic, (t) -> t.volume
-
-			@trafficVolumeScale = trafficVolumeScale = d3.scale.linear()
-			.domain volumeExtent
-			.range [1, 6]
-
-			latencyExtent = d3.extent geoTraffic, (t) -> t.latency.peak
-
-			@trafficLatencyScale = trafficLatencyScale = d3.scale.linear()
-			.domain latencyExtent
-			.range [0.1, 0.5]
+			[trafficVolumeScale, trafficLatencyScale] = getTrafficScales geoTraffic
 
 
 			occupancyScale = d3.scale.linear()
@@ -340,7 +355,7 @@ Template.world.onRendered ->
 
 			occupiedCities = Apps.findOne(app._id)?.availability
 			.map (a) -> dataCenters[dataCenterZones.indexOf(a.name)]
-			
+
 			dataCtr = map.selectAll '.datacenter'
 			.data data.datacenters, (d) -> Math.random()
 

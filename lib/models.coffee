@@ -34,7 +34,12 @@ class @App
 	setAvailabilitySize: (zoneName, size) ->
 		throw "app has no _id" if not @_id
 
-		return if not @pending?.availability?
+		if not @pending?.availability?
+			if _.find(@availability ? [], (a) -> a.name is zoneName)
+				@pending = availability: _.clone @availability
+				Apps.update @_id,
+					$set:
+						'pending.availability': @availability
 
 		zone = _.find @pending.availability ? [], (a) -> a.name is zoneName
 		throw "setsize: no such zone" if not zone
@@ -50,7 +55,12 @@ class @App
 	setAvailabilityScale: (zoneName, scale) ->
 		throw "app has no _id" if not @_id
 
-		return if not @pending?.availability?
+		if not @pending?.availability?
+			if _.find(@availability ? [], (a) -> a.name is zoneName)
+				@pending = availability: _.clone @availability
+				Apps.update @_id,
+					$set:
+						'pending.availability': @availability
 
 		zone = _.find @pending.availability ? [], (a) -> a.name is zoneName
 		throw "setscale: no such zone" if not zone

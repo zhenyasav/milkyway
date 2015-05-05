@@ -10,17 +10,15 @@
 				<img class="logo" src="/images/galaxy.svg">
 				<a class="button settings ion-ios-gear-outline"></a>
 			</div>
-			<div class="search">
-				<input type="text">
-				<a class="button search small ion-ios-search"></a>
-			</div>
 			
 			{{> apps}}
 			
 		</div><div class="container">
 			<div class="header">
 				<a class="button nav icon-galaxy"></a>
-				<h3 class="title">{{currentRoute.title}}</h3>
+				<h3 class="title">
+					{{#reveal currentRoute.title}}{{this}}{{/reveal}}
+				</h3>
 				<div class="horizontal menu">
 					{{> menu_items}}
 				</div>

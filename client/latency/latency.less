@@ -48,10 +48,11 @@
 	}
 
 	.grid {
-		opacity: 0.5;
+		opacity: 0.8;
 		line {
 			stroke: @lightgray;
-			stroke-width: 0.5;
+			stroke-width: 0.8;
+			stroke-dasharray: 2, 2;
 		}
 	}
 
@@ -75,6 +76,7 @@
 		font-size: 80%;
 		text-transform: uppercase;
 		color: @gray;
+		border-bottom: 1px solid mix(@lightgray, @light, 50%);
 	}
 
 	.legend {

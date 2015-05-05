@@ -25,11 +25,24 @@ Template.allocation.helpers
 	estimate: ->
 		numeral(priceEstimate(@value)).format currencyFormat
 
-	totalEstimate: ->
-		total = _.reduce @availability ? [], (m, n) ->
+	totalEstimate: (field) ->
+		total = _.reduce field ? [], (m, n) ->
 			m + priceEstimate n
 		, 0
 		numeral(total).format currencyFormat
+
+	pendingDifference: ->
+		total = _.reduce @availability ? [], (m, n) ->
+			m + priceEstimate n
+		, 0
+
+		pending = _.reduce @pending?.availability ? [], (m, n) ->
+			m + priceEstimate n
+		, 0
+
+		numeral(pending - total).format '+' + currencyFormat
+
+	isPending: -> 'pending' if @pending?
 
 	availability: -> @pending?.availability ? @availability
 
@@ -61,3 +74,5 @@ Template.changesPending.events
 	'click .save': -> @savePending()
 
 	'click .cancel': -> @discardPending()
+
+
