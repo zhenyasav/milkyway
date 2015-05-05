@@ -9,8 +9,8 @@
 	menu: ->
 		availability: "/apps/#{@params.id}"
 		configuration: "/apps/#{@params.id}/config"
-		logs: "/apps/#{@params.id}/logs"
+		#logs: "/apps/#{@params.id}/logs"
 		billing: "/apps/#{@params.id}/billing"
-		settings: "/apps/#{@params.id}/settings"
+		#settings: "/apps/#{@params.id}/settings"
 
 Router.route '/apps/:id', controller: AppRoute

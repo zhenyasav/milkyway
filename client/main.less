@@ -72,6 +72,12 @@ em {
 	border-right: 1px solid mix(@light, @lightgray, 50%);
 	.transition(all 350ms ease-in-out);
 	z-index: 1000;
+
+	.header {
+		a {
+			display: inline-block;
+		}
+	}
 }
 
 .container {
@@ -79,9 +85,10 @@ em {
 	margin-left: @sideMenu;
 	min-height: 100%;
 	padding-bottom: 60px;
+	.transition(all 350ms ease-in-out);
 }
 
-@navBreak: 800px;
+
 
 @media (min-width: @navBreak) {
 	.button.nav {
@@ -105,7 +112,6 @@ em {
 	}
 }
 
-
 @menuBreak: 900px;
 
 .button.menu {
@@ -116,6 +122,10 @@ em {
 	cursor: pointer;
 	
 	@media (min-width: @menuBreak) {
+		display: none;
+	}
+
+	&.hidden {
 		display: none;
 	}
 }
@@ -178,7 +188,7 @@ em {
 	}
 }
 
-.container .header .menu,
+.container>.header .menu,
 .right.menu {
 	a {
 		color: @dark;
@@ -229,9 +239,12 @@ em {
 	.gradient(@white, fade(@white, 60%));
 
 	.title {
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
+		&, & .reveal, & .reveal>div {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+
 		max-width: 190px;
 
 		@media (min-width: 360px) {
@@ -278,4 +291,27 @@ em {
 	color: @gray;
 	padding: 20px;
 	text-align: center;
+}
+
+
+.presentation {
+	.menu.left {
+		right: 100%;
+		left: auto;
+	}
+
+	.container {
+		width: 100%;
+		margin-left: 0;
+
+		.splash {
+			opacity: 0;
+			.pointer-events(none;)
+		}
+
+		>.header {
+			opacity: 0;
+			.pointer-events(none);
+		}
+	}
 }

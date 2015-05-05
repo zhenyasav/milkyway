@@ -1,0 +1,43 @@
+
+@import '../const.import.less';
+
+.changes-pending.header.small {
+
+	@highlight: @meteor;
+
+	// .gradient(fade(@meteor, 2%), fade(@meteor, 10%));
+	border-top: 1px solid fade(@meteor, 15%);
+	border-bottom: 1px solid fade(@meteor, 15%);
+	background-color: fade(@highlight, 10%);
+
+	font-weight: 500;
+	color: @highlight;
+
+	.title {
+		display: inline-block;
+		padding-right: 0;
+		font-size: 80%;
+		line-height: 200%;
+		text-transform: uppercase;
+	}
+
+	.menu.right {
+		float: right;
+		display: inline-block;
+		margin: 2px 10px;
+		margin-left: 0;
+
+		a {
+			padding: 5px 10px;
+			display: inline-block;
+			color: @highlight;
+			border: 1px solid @highlight;
+			cursor: pointer;
+
+			&:active {
+				background-color: @highlight;
+				color: @white;
+			}
+		}
+	}
+}

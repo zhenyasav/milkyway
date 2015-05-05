@@ -1,19 +1,19 @@
 [
 	name: 'zhenya.co'
-	configuration: """{
+	config: """{
 			"public": { "ga": "GA1234" }
 		}"""
 ,
 	name: 'smokefree.zhenya.co'	
-	configuration: "{}"
+	config: "{}"
 ,
 	name: 'slider.zhenya.co'
-	configuration: "{}"
+	config: "{}"
 ,
 	name: 'reveal.zhenya.co'
-	configuration: "{}"
+	config: "{}"
 ,
 	name: 'progress.zhenya.co'
-	configuration: "{}"
+	config: "{}"
 
 ].map (a) -> Apps.insert a

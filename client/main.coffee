@@ -6,6 +6,11 @@ Template.menu_items.helpers
 		'selected' if endsWith.test(new Iron.Url(Router.current()?.url).pathname)
 
 
+Template.main.helpers
+
+	menuHidden: -> 'hidden' if not Router.current()?.menu
+
+
 Template.main.events
 
 	'click': (e) ->
@@ -15,6 +20,7 @@ Template.main.events
 				$(sidebar).toggleClass 'showing'
 			else if not $(e.target).closest(sidebar).length or $(e.target).closest(sidebar + ' a').length
 				$(sidebar).removeClass 'showing'
+
 
 		toggleSideBar '.container .header .menu.button', '.menu.right'
 		toggleSideBar '.container .header .nav.button', '.menu.left'

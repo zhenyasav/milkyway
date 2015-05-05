@@ -1,0 +1,64 @@
+<template name="dashboard">
+	<div class="dashboard visual">
+		{{>time time=lastCigarette large=true}}
+		<h1 class="smoke-free">smoke free</h1>
+
+		{{#if goalVisible}}
+		<div class="goal">
+			{{>progress progress=prog}}
+			<h2><span>{{formatProg}}%</span> <span class="faded">of <span>{{goal}}</span> goal!</span></h2>
+		</div>
+		{{/if}}
+
+		{{#if goalVisible}}
+			{{>reward}}
+		{{/if}}
+
+		<div class="buttons">
+			<div>
+				<a class="button craving">Craving?</a><a class="button givingin">Giving in?</a>
+			</div>
+		</div>
+	</div>
+	
+</template>
+
+<template name="time">
+	<div class="time">
+		{{#if visible}}
+			
+			<div class="days {{displayStyle 'days'}}">
+				{{#reveal sinceLast 'days'}}
+					<em>{{this}}</em>
+				{{/reveal}}
+
+				<span> {{label 'days'}}</span>
+			</div>
+
+			<div class="hours {{displayStyle 'hours'}}">
+				{{#reveal sinceLast 'hours'}}
+					<em>{{this}}</em>
+				{{/reveal}}
+
+				<span> {{label 'hours'}} </span>
+			</div>
+
+			<div class="minutes {{displayStyle 'minutes'}}">
+				{{#reveal sinceLast 'minutes'}}
+					<em>{{this}}</em>
+				{{/reveal}}
+
+				<span> {{label 'minutes'}} </span>
+			</div>
+
+			<div class="seconds {{displayStyle 'seconds'}}">
+				{{#reveal sinceLast 'seconds'}}
+					<em>{{this}}</em>
+				{{/reveal}}
+
+				<span> {{label 'seconds'}}</span>
+			</div>
+			
+		{{/if}}
+	</div>
+</template>

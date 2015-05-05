@@ -1,0 +1,11 @@
+<template name="convers8">
+	<div class="convers8">
+		{{#reveal data=visual transition=visual.transition}}
+			{{>visualContent}}
+		{{/reveal}}
+	</div>
+</template>
+
+<template name="visualContent">
+	{{>Template.dynamic template=template}}
+</template>

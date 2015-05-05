@@ -38,6 +38,7 @@ meteor-platform@1.2.2
 minifiers@1.1.5
 minimongo@1.0.8
 mobile-status-bar@1.0.3
+momentjs:moment@2.10.3
 mongo@1.1.0
 mrt:topojson@1.6.8
 numeral:numeral@1.5.3
@@ -62,5 +63,7 @@ url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
 zhenya:boilerplate@0.0.4
+zhenya:convers8@0.0.1
+zhenya:progress@0.0.2
 zhenya:reveal@0.0.1
 zhenya:slider@0.0.3

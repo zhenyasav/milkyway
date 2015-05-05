@@ -1,6 +1,10 @@
 <template name="config">
-	<div class="configuration">
-	<pre>Meteor.settings =</pre>
-		{{> CodeMirror id="config_code" options=cmOptions code=configuration}}
+	<div class="config">
+		<div class="explain">You may change your configuration here on the fly. Subsequent deployments will reset your changes.</div>
+		{{> changesPending "config"}}
+		<pre>Meteor.settings =</pre>
+		<div class="editor">
+			{{> CodeMirror id="config_code" options=cmOptions}}
+		</div>
 	</div>
 </template>

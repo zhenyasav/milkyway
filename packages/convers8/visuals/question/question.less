@@ -1,0 +1,43 @@
+.border-radius(@arg) {
+	-webkit-border-radius: @arg;
+	-moz-border-radius: @arg;
+	-ms-border-radius: @arg;
+	-o-border-radius: @arg;
+	border-radius: @arg;
+}
+
+.question {
+	.choices {
+		max-width: 100%;
+		min-width: 240px;
+
+		@media (max-width: 512px) {
+			max-width: 100%;
+		}
+
+		margin: 10px auto;
+		margin-top: 20px;
+
+		a {
+			@border: 1px solid #eee;
+
+			display: block;
+			border: @border;
+			border-bottom: none;
+			padding: 10px;
+			cursor: pointer;
+			.border-radius(0);
+
+
+			&:first-child {
+				.border-radius(4px 4px 0 0);
+			}
+
+			&:last-child {
+				.border-radius(0 0 4px 4px);
+				border-bottom: @border;
+			}
+
+		}
+	}
+}

@@ -7,7 +7,7 @@
 	<div class="app">
 		<div class="vertical menu left">
 			<div class="header">
-				<img class="logo" src="/images/galaxy.svg">
+				<a href="/"><img class="logo" src="/images/galaxy.svg"></a>
 				<a class="button settings ion-ios-gear-outline"></a>
 			</div>
 			
@@ -22,7 +22,7 @@
 				<div class="horizontal menu">
 					{{> menu_items}}
 				</div>
-				<a class="button ion-navicon menu"></a>
+				<a class="button ion-navicon menu {{menuHidden}}"></a>
 			</div>
 			{{> yield}}
 		</div><div class="vertical menu right link-list">

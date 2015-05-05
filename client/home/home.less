@@ -1,0 +1,136 @@
+@import '../const.import.less';
+
+.home {
+	padding-top: 100px;
+	color: @darkgray;
+	position: relative;
+	.user-select(none);
+
+	.splash {
+		text-align: center;
+
+		max-width: 300px;
+		margin: 0px auto;
+		margin-top: 60px;
+
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+
+		.introduction {
+			padding: 5px 10px;
+			margin: 10px;
+			margin-top: 40px;
+			display: inline-block;
+			border: 1px solid @lightgray;
+			.border-radius(4px);
+			cursor: pointer;
+			.transition(all 350ms ease-in-out);
+
+			&:active {
+				color: @white;
+				background-color: @dark;
+				border-color: @dark;
+			}
+		}
+
+		.transition(all 350ms ease-in-out);
+
+		.logo {
+			display: inline-block;
+			font-size: 50px;
+		}
+
+		&, .logo {
+			color: @lightgray;
+		}
+
+		.small-screen {
+			display: none;
+
+			@media (max-width: @navBreak) {
+				display: block;
+			}
+		}
+
+		.large-screen {
+			@media (max-width: @navBreak) {
+				display: none;
+			}
+		}
+	}
+}
+
+.convers8 {
+
+	img, svg {
+		max-width: 100%;
+	}
+
+	.text {
+		padding-top: 100px;
+	}
+
+	.intro {
+		@i: 120px;
+		img {
+			width: @i;
+			height: @i;
+			margin: 20px;
+			.border-radius(@i);
+			.box-shadow(0px 2px 5px fade(@black, 20%));
+		}
+	}
+
+	.medium {
+		font-size: 32px;
+	}
+
+	.large {
+		font-size: 50px;
+	}
+
+	.ilovemeteor {
+
+		.love {
+			color: @meteor;
+		}
+	
+		img {
+			width: 240px;
+			display: inline-block;
+			margin-left: 20px;
+		}
+	}
+
+	.happycat {
+		img {
+			width: 320px;
+			margin: 20px 0;
+		}
+	}
+
+	.question {
+		.choices {
+			a {
+				font-size: 120%;
+
+				.transition(all 350ms ease-in-out);
+
+				.no-touch &:hover {
+					background-color: @light;
+					.transition(none);
+				}
+
+				&:active,
+				.no-touch &:active {
+					color: @white;
+					background-color: @black;
+					.transition(none);
+				}
+			}
+		}
+	}
+}
+

@@ -348,7 +348,7 @@ Template.world.onRendered ->
 			.attr 'opacity', 0
 			.attr 'stroke-width', (d) -> trafficVolumeScale d.volume
 			.transition()
-			.delay (d, i) -> 600 + i * 2000 / geoTraffic.length
+			.delay (d, i) -> 1600 + i * 2000 / geoTraffic.length
 			.duration 600
 			.attr 'opacity', (d) -> trafficLatencyScale d.latency.peak
 
@@ -409,6 +409,12 @@ Template.world.onRendered ->
 			draw()
 	else 
 		draw()
+
+
+Meteor.startup ->
+	if not data?.world
+		d3.json '/world.json', (err, w) ->
+			makeData w
 
 
 	

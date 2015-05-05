@@ -1,0 +1,21 @@
+<template name="question">
+	<div class="vcenter"></div>
+	<div class="question visual">	
+		<h2>{{question}}</h2>
+		<div class="response">
+			{{>Template.dynamic template=responseTemplate}}
+		</div>
+	</div>
+</template>
+
+<template name="numeric_response">
+	<input type="text">
+</template>
+
+<template name="choice_response">
+	<div class="choices">
+	{{#each key_value response.choices}}
+		<a data-value={{value}}>{{key}}</a>
+	{{/each}}
+	</div>
+</template>

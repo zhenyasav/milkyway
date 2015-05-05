@@ -1,7 +1,27 @@
 @import '../const.import.less';
 
-.configuration {
-	padding: 10px 20px;
+.config {
+	
 	border-top: 1px solid @light;
 	border-bottom: 1px solid @light;
+
+	.CodeMirror {
+		height: auto;
+	}
+
+	.explain {
+		margin: 10px 20px;
+		color: @gray;
+	}
+
+	.editor {
+		padding: 10px 20px;
+		padding-top: 0;
+		margin-top: 0;
+	}
+
+	>pre {
+		margin: 10px 20px;
+		margin-bottom: 0;
+	}
 }

@@ -1,1 +1,27 @@
-<template name="billing"></template>
+<template name="billing">
+	
+	<div class="billing">
+
+		<div class="current">
+			<div>Current balance:</div>
+			<div class="estimate">
+				<span class="symbol">$</span>
+				<span class="price">{{current}}</span>
+			</div>
+		</div>
+
+		{{>progress progress=billProgress color="blue"}}
+
+		<div class="last">
+			<div>
+				<span class="percent">{{percent}}<span class="symbol">%</span></span> of last bill cycle:
+			</div>
+			<div class="estimate">
+				<span class="symbol">$</span>
+				<span class="price">{{last}}</span>
+			</div>
+		</div>
+	
+	</div>
+
+</template>

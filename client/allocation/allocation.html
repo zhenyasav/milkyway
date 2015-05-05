@@ -12,7 +12,7 @@
 				</select>
 			</div>
 		</div>
-		{{> changesPending}}
+		{{> changesPending "availability"}}
 		<div class="zones">
 			{{#each key_value availability}}
 			<div class="zone">
@@ -52,14 +52,14 @@
 						<td><span class="est">Current estimate: </span></td>
 						<td><span class="currency">$</span><span class="price">{{totalEstimate this.availability}}</span><span class="small">/mo</span></td>
 					</tr>
-					{{#if pending}}
+					{{#if pending.availability}}
+					<tr class="difference">
+						<td><span class="est">Pending change: </span></td>
+						<td><span class="currency">$</span><span class="price">{{pendingDifference}}</span><span class="small">/mo</span></td>
+					</tr>
 					<tr class="pending">
 						<td><span class="est">New estimate: </span></td>
 						<td><span class="currency">$</span><span class="price">{{totalEstimate pending.availability}}</span><span class="small">/mo</span></td>
-					</tr>
-					<tr class="difference">
-						<td><span class="est">Difference: </span></td>
-						<td><span class="currency">$</span><span class="price">{{pendingDifference}}</span><span class="small">/mo</span></td>
 					</tr>
 					{{/if}}
 				</table>
@@ -67,18 +67,6 @@
 			
 		</div>
 		{{/if}}
-		{{> changesPending}}
+		{{> changesPending "availability"}}
 	</div>
-</template>
-
-<template name="changesPending">
-	{{#if pending}}
-	<div class="header small highlight changes-pending">
-		<div class="title center">Changes pending</div>
-		<div class="menu right">
-			<a class="save">Save</a>
-			<a class="cancel">Discard</a>
-		</div>
-	</div>
-	{{/if}}
 </template>

@@ -1,14 +1,6 @@
 
-prices = [0.05, 0.1] # $ per inst hour
-
 currencyFormat = '0,0'
 
-priceEstimate = (v) ->
-	if price = prices[v.size]
-		if scale = v.scale
-			price * scale * 24 * 30
-	else
-		0
 
 Template.allocation.helpers
 
@@ -23,28 +15,23 @@ Template.allocation.helpers
 		checked: 'checked' if @value.size is v
 
 	estimate: ->
-		numeral(priceEstimate(@value)).format currencyFormat
+		numeral(App.zoneEstimate(@value)).format currencyFormat
 
 	totalEstimate: (field) ->
-		total = _.reduce field ? [], (m, n) ->
-			m + priceEstimate n
-		, 0
+		total = App.monthlyEstimate field
 		numeral(total).format currencyFormat
 
 	pendingDifference: ->
-		total = _.reduce @availability ? [], (m, n) ->
-			m + priceEstimate n
-		, 0
+		total = App.monthlyEstimate @availability
 
-		pending = _.reduce @pending?.availability ? [], (m, n) ->
-			m + priceEstimate n
-		, 0
+		pending = App.monthlyEstimate @pending?.availability
 
 		numeral(pending - total).format '+' + currencyFormat
 
-	isPending: -> 'pending' if @pending?
+	isPending: -> 'pending' if @pending?.availability
 
 	availability: -> @pending?.availability ? @availability
+
 
 Template.allocation.events
 
@@ -68,11 +55,5 @@ Template.allocation.events
 	'click .zone .button.delete': (e) ->
 		if app = Template.parentData 1
 			app?.removeAvailability @value.name
-
-Template.changesPending.events
-
-	'click .save': -> @savePending()
-
-	'click .cancel': -> @discardPending()
-
+			
 

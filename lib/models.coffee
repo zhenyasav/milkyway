@@ -1,3 +1,4 @@
+
 class @App
 
 	@min:
@@ -8,35 +9,77 @@ class @App
 		scale: 150
 		size: 1
 
+	@pricing: [0.05, 0.1]
+
+	@monthlyEstimate: (availability) ->
+		_.reduce availability ? [], (m, n) ->
+			m + App.zoneEstimate n
+		, 0
+
+	@zoneEstimate: (zone) ->
+		if price = App.pricing[zone.size]
+			if scale = zone.scale
+				price * scale * 24 * 30
+		else
+			0
+
 	constructor: (o) ->
 		_.extend @, o
 
-	savePending: ->
+	savePending: (prop) ->
 		throw "app has no _id" if not @_id
 
-		return if not @pending?.availability?
+		return if not @pending?[prop]?
+
+		setter = {}
+		setter[prop] = @pending[prop]
+
+		unsetter = {}
+		unsetter["pending.#{prop}"] = ''
+		if @pending?[prop]?
+			delete @pending[prop]
+
+		Apps.update @_id,
+			$set: setter
+			$unset: unsetter
+
+	discardPending: (prop) ->
+		throw "app has no _id" if not @_id
+		
+		return if not @pending?[prop]?
+
+		unsetter = {}
+		unsetter["pending.#{prop}"] = ''
+		if @pending?[prop]?
+			delete @pending[prop]
+
+		Apps.update @_id,
+			$unset: unsetter
+
+	setConfig: (code) ->
+		throw "app has no _id" if not @_id
+
+		return if code is @config
+
+		if not @pending?.config
+			@pending = _.extend @pending ? {}, config: @config
+			Apps.update @_id,
+				$set:
+					'pending.config': @config
+
+		@pending.config = code
 
 		Apps.update @_id,
 			$set:
-				availability: @pending.availability
-			$unset:
-				pending: ''
+				'pending.config': code
 
-	discardPending: ->
-		throw "app has no _id" if not @_id
-
-		return if not @pending?.availability?
-
-		Apps.update @_id,
-			$unset:
-				pending: ''
 
 	setAvailabilitySize: (zoneName, size) ->
 		throw "app has no _id" if not @_id
 
 		if not @pending?.availability?
 			if _.find(@availability ? [], (a) -> a.name is zoneName)
-				@pending = availability: _.clone @availability
+				@pending = _.extend @pending ? {}, availability: _.clone @availability
 				Apps.update @_id,
 					$set:
 						'pending.availability': @availability
@@ -57,7 +100,7 @@ class @App
 
 		if not @pending?.availability?
 			if _.find(@availability ? [], (a) -> a.name is zoneName)
-				@pending = availability: _.clone @availability
+				@pending = _.extend @pending ? {}, availability: _.clone @availability
 				Apps.update @_id,
 					$set:
 						'pending.availability': @availability
@@ -82,7 +125,7 @@ class @App
 		return if @pending? and not _.find(@pending?.availability ? [], (a) -> a.name is zone)
 
 		if not @pending?.availability?
-			@pending = availability: _.clone @availability
+			@pending = _.extend @pending ? {}, availability: _.clone @availability
 			Apps.update @_id,
 				$set:
 					'pending.availability': @pending
@@ -100,6 +143,7 @@ class @App
 		return if @pending? and _.find(@pending?.availability ? [], (a) -> a.name is zone)
 
 		if not @pending?.availability?
+			@pending = _.extend @pending ? {}, availability: _.clone @availability
 			Apps.update @_id,
 				$set:
 					'pending.availability': @availability
@@ -110,3 +154,5 @@ class @App
 					name: zone
 					size: 0
 					scale: 1
+
+

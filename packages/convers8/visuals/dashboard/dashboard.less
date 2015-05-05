@@ -1,0 +1,77 @@
+@import '../../lib/const.import.less';
+
+.dashboard {
+
+	padding: 10px 0;
+
+	.smoke-free {
+		font-size: 230%;
+	}
+
+	.time {
+
+		>div {
+			font-size: 70%;
+			display: inline-block
+		}
+
+		>div.large {
+			font-size: 320%;
+			display: block;
+		}
+
+		>div.hide {
+			display: none;
+		}
+		
+		span {
+			color: mix(@white, @blue, 50%);
+			text-transform: uppercase;
+		}
+	}
+
+	.goal {
+		
+		h2 {
+			text-transform: uppercase;
+			font-size: 100%;
+		}
+
+		.faded {
+			color: mix(@offwhite, @blue, 70%);
+		}
+	}
+
+	.buttons {
+		
+		margin-top: 15px;
+
+		div {
+			max-width: @narrow;
+			margin: 0 auto;
+			margin-bottom: 30px;
+			text-align: center;
+
+			a {
+				padding: 10px 20px;
+				border-width: 3px;
+			}
+
+			a.craving {
+				font-weight: 400;
+			}
+
+			@corner: 10px;
+
+			a:first-child {
+				border-right: none;
+				.border-radius(@corner 0 0 @corner);
+			}
+
+			a:last-child {
+				.border-radius(0 @corner @corner 0);
+			}
+		}
+	}
+	
+}
