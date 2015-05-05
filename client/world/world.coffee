@@ -197,10 +197,15 @@ Template.world.helpers
 			latencyFormat = (d) -> d3.format('1.1f')(d/1000) + 's'
 
 			result = for i in [0..Math.max(latencyTicks.length, volumeTicks.length)-1]
-				latency: latencyFormat latencyTicks[i]
-				latencyOpacity: latency(latencyTicks[i]).toFixed(1)
-				volume: volumeTicks[i]
-				volumeHeight: volume(volumeTicks[i]).toFixed(1)
+				r = {}
+				if i < latencyTicks.length
+					r.latency = latencyFormat latencyTicks[i]
+					r.latencyOpacity = latency(latencyTicks[i]).toFixed(1)
+					
+				if i < volumeTicks.length
+					r.volume = volumeTicks[i]
+					r.volumeHeight = volume(volumeTicks[i]).toFixed(1)
+				r
 				
 			result
 
