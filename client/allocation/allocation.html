@@ -1,5 +1,6 @@
 <template name="allocation">
 	<div class="allocation">
+
 		<div class="header small">
 			<div class="title">
 				<span>Add servers in </span>
@@ -11,6 +12,7 @@
 				</select>
 			</div>
 		</div>
+		{{> changesPending}}
 		<div class="zones">
 			{{#each key_value availability}}
 			<div class="zone">
@@ -50,4 +52,16 @@
 		</div>
 		{{/if}}
 	</div>
+</template>
+
+<template name="changesPending">
+	{{#if pending}}
+	<div class="header small highlight changes-pending">
+		<div class="title center">Changes pending</div>
+		<div class="menu right">
+			<a class="save">Save</a>
+			<a class="cancel">Discard</a>
+		</div>
+	</div>
+	{{/if}}
 </template>

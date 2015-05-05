@@ -31,6 +31,8 @@ Template.allocation.helpers
 		, 0
 		numeral(total).format currencyFormat
 
+	availability: -> @pending?.availability ? @availability
+
 Template.allocation.events
 
 	'change .size .radio input': (e) ->
@@ -53,3 +55,9 @@ Template.allocation.events
 	'click .zone .button.delete': (e) ->
 		if app = Template.parentData 1
 			app?.removeAvailability @value.name
+
+Template.changesPending.events
+
+	'click .save': -> @savePending()
+
+	'click .cancel': -> @discardPending()

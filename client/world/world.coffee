@@ -71,7 +71,7 @@ makeTraffic = ->
 				max: dataCenters.length * 0.3
 			normTrafficSources:
 				min: 0.05
-				max: 0.15
+				max: 0.08
 		volume:
 			min: 10
 			max: 5000
@@ -384,7 +384,7 @@ Template.world.onRendered ->
 		Meteor.setTimeout =>
 			@$ '.world'
 			.addClass 'show-warnings'
-		, 7000
+		, 4000
 
 	if not data?.world
 		d3.json '/world.json', (err, w) -> 
