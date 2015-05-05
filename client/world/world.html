@@ -1,6 +1,54 @@
 <template name="world">
 	<div class="world">
 		<svg></svg>
-		<span class="warning">map shows slow traffic only</span>
+		<div class="legend">
+			<div class="explain">
+				Map of daily highest latency traffic showing origin, latency, and volume.
+			</div>
+			<table>
+				<tr>
+					<th>Latency</th>
+					<th>Volume</th>
+				</tr>
+				{{#each legendScales}}
+				<tr class="scales">
+					<td>
+						{{#if latency}}
+						<span style="opacity:{{latencyOpacity}}"></span>
+						<label>{{latency}}</label>
+						{{/if}}
+					</td>
+					<td>
+						{{#if volume}}
+						<span style="height:{{volumeHeight}}px"></span>
+						<label>{{volume}}</label>
+						{{/if}}
+					</td>
+				</tr>
+				{{/each}}
+				<tr>
+					<th colspan="2">Servers</th>
+				</tr>
+				<tr class="datacenters">
+					<td class="deployed">
+						<span></span>
+						<label>Deployed</label>
+					</td>
+					<td class="available">
+						<span></span>
+						<label>Available</label>
+					</td>
+				</tr>
+			</table>
+			<div class="center">
+				<a class="close ion-close">Close</a>
+			</div>
+		</div>
+		<div class="warning">
+			<div>map shows slow traffic only</div>
+		</div>
+
+		<a class="button help small full ion-ios-help-outline"></a>
+
 	</div>
 </template>

@@ -2,6 +2,13 @@
 
 .latency {
 
+	position: relative;
+
+	@barcolor: fade(@orange, 20%);
+	@errcolor: @meteor;
+
+	.gradient(fade(@white, 60%), fade(@white, 100%));
+
 	.axis {
 		font-size: 60%;
 
@@ -13,11 +20,114 @@
 			fill: none;
 			stroke: @lightgray;
 		}
+
+		line {
+			stroke: @lightgray;
+		}
 	}
 
 	.series {
 		.bar {
-			fill: fade(@orange, 20%);
+			rect {
+				fill: @barcolor
+			}
+			text {
+				fill: fade(@barcolor, 100%);
+				font-size: 60%;
+				opacity: 0;
+				.pointer-events(none);
+				.transition(all 350ms ease-in-out);
+			}
+
+			.no-touch &:hover {
+				text {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.grid {
+		opacity: 0.5;
+		line {
+			stroke: @lightgray;
+			stroke-width: 0.5;
+		}
+	}
+
+	.errors {
+		text {
+			font-size: 60%;
+			fill: @errcolor;
+			font-weight: 500;
+		}
+
+		circle {
+			fill: none;
+			stroke: @errcolor;
+			stroke-width: 0.8;
+		}
+	}
+
+	.title {
+		margin: 0 35px;
+		font-size: 80%;
+		text-transform: uppercase;
+		color: @gray;
+	}
+
+	.legend {
+		font-size: 60%;
+		text-transform: uppercase;
+		display: inline-block;
+		position: absolute;
+		bottom: 31px;
+		left: 0;
+		color: @gray;
+		padding: 5px;
+		margin: 5px 30px;
+
+		@s: 10px;
+
+		>div {
+			display: inline-block;
+			margin: 0 2px;
+
+			>* {
+				vertical-align: middle;
+			}
+
+			span {
+				display: inline-block;
+				width: @s;
+				height: @s;
+				margin-right: 2px;
+			}
+		}
+
+		.peak {
+			span {
+				background-color: @barcolor; 
+			}
+		}
+
+		.median {
+			span {
+				background-color: fade(@barcolor, 100% * 2 * alpha(@barcolor));
+			}
+		}
+
+		.errors {
+			span {
+				.border-radius(@s);
+				border: 1px solid @errcolor;
+			}
+		}
+
+		.axis.errors {
+			text {
+				display: none;
+			}
 		}
 	}
 }

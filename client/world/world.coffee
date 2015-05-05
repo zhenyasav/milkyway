@@ -54,9 +54,9 @@ makeTraffic = ->
 
 	limits = 
 		minDistance: Math.PI * 0.3
-		normDistance: 200
+		normDistance: Math.PI * 0.5
 		time: 
-			min: -12
+			min: -24
 			max: 0
 		latency:
 			median:
@@ -77,8 +77,8 @@ makeTraffic = ->
 			max: 5000
 		errors:
 			min: 1
-			max: 20
-			prob: 0.1
+			max: 10
+			prob: 0.2
 
 	latency = (d=limits.normDistance) ->
 		normDistance = d / limits.normDistance
@@ -158,6 +158,34 @@ makeTraffic = ->
 					latency: latency dist
 					volume: Math.round randomRange limits.volume.min, limits.volume.max
 
+Template.world.helpers
+
+	legendScales: ->
+		instance = Template.instance()
+		
+		[latency, volume] = [instance.trafficLatencyScale, instance.trafficVolumeScale]
+
+		if latency? and volume?
+			latencyTicks = latency.ticks 3
+			volumeTicks = volume.ticks 3
+
+			latencyFormat = (d) -> d3.format('1.1f')(d/1000) + 's'
+
+			result = for l, i in latencyTicks
+				latency: latencyFormat l
+				latencyOpacity: latency(l).toFixed(1)
+				volume: volumeTicks[i]
+				volumeHeight: volume(volumeTicks[i]).toFixed(1)
+				
+			result
+
+Template.world.events
+	'click .help': (e) ->
+		$('.world').toggleClass 'show-legend'
+
+	'click .legend .close': (e) ->
+		$('.world').removeClass 'show-legend'
+
 
 Template.world.onDestroyed ->
 	$(window).off 'resize', @onResize
@@ -174,11 +202,11 @@ Template.world.onRendered ->
 	draw = =>
 		resize = ->
 			svg.attr 'width', width = root.clientWidth - 2*margin
-			svg.attr 'height', height = 360 - 2*margin + 70
+			svg.attr 'height', height = 360 - 2*margin + 70 + 70
 
 			projection = d3.geo.mercator()
 			.scale 120
-			.translate [width/2, height/1.5]
+			.translate [width/2, height/1.7]
 
 			path = d3.geo.path().projection projection
 
@@ -205,7 +233,6 @@ Template.world.onRendered ->
 		.transition()
 		.duration 700
 		.attr 'opacity', 1
-		#.delay (d, i) -> i * 700 / data.countries.length
 
 		svg.selectAll '.city'
 		.data data.cities
@@ -219,7 +246,6 @@ Template.world.onRendered ->
 		.attr 'stroke-width', 0
 		.duration 700
 		.delay 700
-		#.delay (d,i) -> 1000 + i * 3000 / data.cities.length
 		
 
 		geoTraffic = Traffic.find
@@ -229,16 +255,16 @@ Template.world.onRendered ->
 
 		volumeExtent = d3.extent geoTraffic, (t) -> t.volume
 
-		trafficVolumeScale = d3.scale.linear()
+		@trafficVolumeScale = trafficVolumeScale = d3.scale.linear()
 		.domain volumeExtent
 		.range [1, 5]
 
 		latencyExtent = d3.extent geoTraffic, (t) -> t.latency.peak
 
-		trafficLatencyScale = d3.scale.linear()
+		@trafficLatencyScale = trafficLatencyScale = d3.scale.linear()
 		.domain latencyExtent
 		.range [0.1, 0.5]
-		# .range ["#FF9933", "#9400D3"]
+
 		
 		svg.selectAll '.traffic'
 		.data geoTraffic.map (traffic) ->
@@ -268,7 +294,7 @@ Template.world.onRendered ->
 		.enter().append 'path'
 		.attr 'class', (d) -> "datacenter" + if d.properties.name in occupiedCities then " occupied" else ""
 		.attr 'opacity', 0
-		.attr 'stroke-width', 10
+		.attr 'stroke-width', 20
 		.on 'click', (d) -> console.log d.properties.name
 		.transition()
 		.delay (d,i) -> 1000 + i * 2000 / data.datacenters.length

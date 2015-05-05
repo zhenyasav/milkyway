@@ -1,5 +1,14 @@
 <template name="latency">
 	<div class="latency">
+		<div class="title">24hr traffic latency</div>
 		<svg></svg>
+		<div class="legend">
+			{{#each legend}}
+			<div class="{{.}}">
+				<span></span>
+				<label>{{capitalize .}}</label>
+			</div>
+			{{/each}}
+		</div>
 	</div>
 </template>

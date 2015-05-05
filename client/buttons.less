@@ -18,12 +18,18 @@
 		.border-radius(@size);
 		font-size: @size - 2 * @padding;
 		line-height: @size - 2 * @padding;
+
+		&.full {
+			padding: 0;
+			font-size: @size;
+			line-height: @size;
+		}
 	}
 	
 	.size(48px, 7px);
 
 	&.small {
-		.size(32px, 5px);
+		.size(32px, 4px);
 	}
 
 	&.xsmall {

@@ -100,7 +100,10 @@ h1, h2, h3, h4 {
 @menuBreak: 900px;
 
 .button.menu {
-	float: right;
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -24px;
 	cursor: pointer;
 	
 	@media (min-width: @menuBreak) {
@@ -119,6 +122,7 @@ h1, h2, h3, h4 {
 	left: 100%;
 	top: 0;
 	bottom: 0;
+	z-index: 1000;
 
 	background-color: @white;
 
@@ -180,6 +184,7 @@ h1, h2, h3, h4 {
 	border-bottom: @light;
 	min-height: 70px;
 	position: relative;
+	z-index: 100;
 	.user-select(none);
 
 	>* {
@@ -211,8 +216,27 @@ h1, h2, h3, h4 {
 	}
 }
 
-.container .header {
+.container>.header {
 	.gradient(@white, fade(@white, 60%));
+
+	.title {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		max-width: 190px;
+
+		@media (min-width: 360px) {
+			max-width: 220px;
+		}
+
+		@media (min-width: @menuBreak) and (max-width: @menuBreak + 50px) {
+			max-width: 180px;
+		}
+
+		@media (min-width: @menuBreak + 50px) {
+			max-width: 230px;
+		}
+	}
 }
 
 .clearfix(header);
