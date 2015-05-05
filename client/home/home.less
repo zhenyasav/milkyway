@@ -2,6 +2,11 @@
 
 .home {
 	padding-top: 100px;
+
+	@media (max-width: 600px) {
+		padding-top: 0px;
+	}
+
 	color: @darkgray;
 	position: relative;
 	.user-select(none);
@@ -66,10 +71,14 @@
 
 	img, svg {
 		max-width: 100%;
+
+		@media (max-width: 600px) {
+			max-width: 90%;
+		}
 	}
 
 	.text {
-		padding-top: 100px;
+		padding-top: 80px;
 	}
 
 	.intro {

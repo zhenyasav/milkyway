@@ -74,17 +74,17 @@ Template.home.events
 ,
 	name: "galaxy3"
 	text: "... to help imagine what it might be like to use Galaxy"
-	dismiss: 3
+	dismiss: 3.2
 	continue: 'galaxy4'
 ,
 	name: 'galaxy4'
 	text: "... and to demonstrate my ability."
-	dismiss: 2
+	dismiss: 3
 	continue: 'galaxy5'
 ,
 	name: 'galaxy5'
-	text: "This app was designed and built in less than four days."
-	dismiss: 3
+	text: "This app was designed and built in about four days."
+	dismiss: 3.2
 	continue: 'whatnext'
 ,
 	name: 'whatnext'
@@ -148,10 +148,10 @@ Template.home.events
 	response:
 		choices:
 			"Zhenya's CV": 'cv'
-			"A nice sample of codewriting style": 'slider'
-			"Source to this app (more messy)": 'milkyway'
+			"A sample of nice code": 'slider'
+			"Source to this app (messy)": 'milkyway'
 			"zhenya.co": 'web'
-			"Learn to pronounce 'Zhenya'": 'pronounce'
+			"How to pronounce 'Zhenya'?": 'pronounce'
 			"Back": 'back'
 	continue: 
 		cv: "about"
