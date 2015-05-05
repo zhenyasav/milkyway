@@ -103,7 +103,7 @@ Template.home.events
 	continue: 'whatnext'
 ,
 	name: 'whatnext'
-	question: ["Where can I take you now?", "Where shall we go next?", "Your wish. My command."]
+	question: ["Where can I take you now?", "Where shall we go next?", "What can I do for you?"]
 	response:
 		choices:
 			"Galaxy Concept": 'demo'
