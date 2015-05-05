@@ -1,3 +1,23 @@
 .text.visual {
 	min-width: 300px;
 }
+
+.visual {
+	&.text,
+	&.question {
+		.icon {
+			@i: 110px;
+			width: @i;
+			height: @i;
+			display: inline-block;
+			font-size: @i;
+			line-height: @i;
+			text-align: center;
+			margin-top: -@i;
+			margin-bottom: 10px;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+		}
+	}
+}

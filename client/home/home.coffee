@@ -22,9 +22,23 @@ Template.home.events
 	name: 'greeting'
 	text: ['Hi!', 'Hello!', 'Greetings!', greetDay()]
 	dismiss: 1.5
-	continue: if localStorage?[acquiaintedKey] then 'whatnext' else 'intro'
+	continue: if not /Chrome|Safari/.test navigator.userAgent then 'chrome-test' else if localStorage?[acquiaintedKey] then 'whatnext' else 'intro'
 	pushed: ->
 		$('html').addClass 'presentation'
+,
+	name: 'chrome-test'
+	icon: 'ion-social-chrome-outline'
+	question: "This site was only tested in Chrome and Safari.<br>Please consider using one of those browsers"
+	response:
+		choices:
+			"Proceed": 'continue'
+			"Get Chrome": 'chrome'
+	continue:
+		continue: if localStorage?[acquiaintedKey] then 'whatnext' else 'intro'
+		chrome: 'chrome-test'
+	dismissed: (resp) ->
+		if resp is 'chrome'
+			window.location = "http://www.google.com/chrome"
 ,
 	name: 'intro'
 	continue: 'ilovemeteor'
@@ -58,18 +72,19 @@ Template.home.events
 	continue: 'ihelp'
 ,
 	name: 'ihelp'
+	icon: 'icon-tree large'
 	text: 'Most of all, I want to help Meteor <em>grow</em> and <em>succeed</em>.'
 	dismiss: 5.2
 	continue: 'galaxy'
 ,
 	name: "galaxy"
-	text: "Galaxy is a priority for you right now."
+	text: "Galaxy is a priority right now."
 	dismiss: 3
 	continue: 'galaxy2'
 ,
 	name: "galaxy2"
-	text: "So I've decided to build something just for you!"
-	dismiss: 2
+	text: "So I've decided to build something just for you"
+	dismiss: 2.2
 	continue: 'galaxy3'
 ,
 	name: "galaxy3"
@@ -120,7 +135,7 @@ Template.home.events
 ,
 	name: 'notes1.1'
 	text: "<em>1.1</em> Visualize where developers should purchase availability to help highest latency traffic"
-	dismiss: 3
+	dismiss: 4.5
 	continue: 'notes2'
 ,
 	name: 'notes2'
@@ -135,7 +150,7 @@ Template.home.events
 ,
 	name: 'notes4'
 	text: "Inspiration drawn from:<br>Meteor.com<br>AWS<br>dashboard.heroku.com<br>d3.js samples"
-	dismiss: 3
+	dismiss: 4
 	continue: 'whatnext'
 ,
 	name: 'pronounce'

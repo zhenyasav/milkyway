@@ -1,7 +1,8 @@
 <template name="question">
 	<div class="vcenter"></div>
-	<div class="question visual">	
-		<h2>{{question}}</h2>
+	<div class="question visual">
+		{{#if icon}}<div class="icon {{icon}}"></div>{{/if}}
+		<h2>{{{question}}}</h2>
 		<div class="response">
 			{{>Template.dynamic template=responseTemplate}}
 		</div>
