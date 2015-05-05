@@ -6,9 +6,9 @@
 
 	.legend {
 		position: absolute;
-		bottom: 20%;
+		bottom: 18%;
 		left: 0;
-		margin: 20px 35px;
+		margin: 0px 35px;
 		padding: 5px 10px;
 		font-size: 80%;
 		background-color: fade(@white, 90%);
@@ -22,7 +22,7 @@
 		}
 
 		.explain {
-			max-width: 140px;
+			max-width: 160px;
 			margin-bottom: 5px;
 		}
 
@@ -156,9 +156,11 @@
 		bottom: 110px;
 		margin-left: -24px;
 		color: @gray;
+		background-color: fade(@white, 50%);
 
 		&:active {
 			color: @white;
+			background-color: @dark;
 		}
 		
 		.transform(translate3d(0, 10px, 0));

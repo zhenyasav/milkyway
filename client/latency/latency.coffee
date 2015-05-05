@@ -75,7 +75,8 @@ Template.latency.onRendered ->
 	errors = svg.append 'g'
 	.attr 'class', 'errors'
 
-	resize = =>
+	resize = (newData) =>
+
 		svg.attr 'width', width = root.clientWidth
 		svg.attr 'height', height
 
@@ -105,8 +106,7 @@ Template.latency.onRendered ->
 		.attr 'width', barWidth
 
 		peakSeries.selectAll '.bar'
-		.attr 'transform', (d, i) -> 
-			"translate(#{timeScale d.hour}, #{latencyScale d.latency.peak})"
+		.attr 'transform', (d, i) -> "translate(#{timeScale d.hour}, #{latencyScale d.latency.peak})"
 		.select 'text'
 		.attr 'x', barWidth / 2
 
@@ -161,44 +161,62 @@ Template.latency.onRendered ->
 			.call errorAxis
 
 
-			peakBar = peakSeries.selectAll ".bar"
-			.data traffic
-			.enter()
+			peakBar = peakSeries.selectAll '.bar'
+			.data traffic, (t) -> t._id
+
+			peakBarExitTransition = peakBar.exit()
+			.transition()
+			.duration 600
+			.remove()
+
+			peakBarExitTransition.select 'rect'
+			.attr 'height', 0
+
+			peakBarEnter = peakBar.enter()
 			.append "g"
 			.attr 'class', 'bar'
 			.attr 'transform', (d, i) -> "translate(#{timeScale d.hour}, #{plotHeight})"
 
-			peakBar.transition()
+			peakBarEnter.transition()
 			.attr 'transform', (d, i) -> "translate(#{timeScale d.hour}, #{latencyScale d.latency.peak})"
 			.duration 1000
 
-			peakBar.append 'rect'
+			peakBarEnter.append 'rect'
 			.attr 'width', barWidth
 			.attr 'height', 0
 			.transition()
 			.duration 1000
 			.attr 'height', (d) -> plotHeight - latencyScale d.latency.peak
 
-			peakBar.append 'text'
+			peakBarEnter.append 'text'
 			.attr 'text-anchor', 'middle'
 			.attr 'x', barWidth / 2
 			.attr 'y', -3
 			.text (d) -> latencyFormat d.latency.peak
-			
+
 
 			medianBar = medianSeries.selectAll '.bar'
-			.data traffic
-			.enter()
+			.data traffic, (t) -> t._id
+
+			medianBarExitTransition = medianBar.exit()
+			.transition()
+			.duration 600
+			.remove()
+
+			medianBarExitTransition.select 'rect'
+			.attr 'height', 0
+			
+			medianBarEnter = medianBar.enter()
 			.append 'g'
 			.attr 'class', 'bar'
 			.attr 'transform', (d, i) -> "translate(#{timeScale d.hour}, #{plotHeight})"
 
-			medianBar.transition()
+			medianBarEnter.transition()
 			.duration 1000
 			.delay 600
 			.attr 'transform', (d, i) -> "translate(#{timeScale d.hour}, #{latencyScale d.latency.median})"
 
-			medianBar.append "rect"
+			medianBarEnter.append "rect"
 			.attr 'width', barWidth
 			.attr 'height', 0
 			.transition()
@@ -206,7 +224,7 @@ Template.latency.onRendered ->
 			.delay 600
 			.attr 'height', (d) -> plotHeight - latencyScale d.latency.median
 			
-			medianBar.append 'text'
+			medianBarEnter.append 'text'
 			.attr 'text-anchor', 'middle'
 			.attr 'x', barWidth / 2
 			.attr 'y', -3
@@ -222,19 +240,35 @@ Template.latency.onRendered ->
 			
 
 			err = errors.selectAll '.error'
-			.data _.filter traffic, (t) -> t.errors
-			.enter()
+			.data _.filter(traffic, (t) -> t.errors), (t) -> t._id
+
+			errExit = err.exit()
+			.transition()
+			.duration 600
+			.delay 600
+			.attr 'transform', (d) -> "translate(#{timeScale d.hour}, -10)"
+			.attr 'opacity', 0
+			.remove()
+
+			errEnter = err.enter()
 			.append "g"
 			.attr "class", 'error'
-			.attr "transform", (d) -> "translate(#{timeScale d.hour}, 0)"
+			.attr 'opacity', 0
+			.attr "transform", (d) -> "translate(#{timeScale d.hour}, 10)"
 			
-			err.append "text"
-			.attr "text-anchor", "middle"
-			.text (d) -> d.errors
+			errEnter.transition()
+			.duration 600
+			.delay 600
+			.attr 'opacity', 1
+			.attr 'transform', (d) -> "translate(#{timeScale d.hour}, 0)"
 
-			err.append "circle"
+			errEnter.append "circle"
 			.attr "r", errorRadius
 			.attr "cy", -4
+
+			errEnter.append "text"
+			.attr "text-anchor", "middle"
+			.text (d) -> d.errors
 
 
 
