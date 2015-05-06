@@ -103,7 +103,7 @@ Template.home.events
 	continue: 'whatnext'
 ,
 	name: 'whatnext'
-	question: ["Where can I take you now?", "Where shall we go next?", "What can I do for you?"]
+	question: ["Where can I take you now?", "Where to next?", "What can I do for you?"]
 	response:
 		choices:
 			"Galaxy Concept": 'demo'
@@ -135,7 +135,7 @@ Template.home.events
 ,
 	name: 'notes1.1'
 	text: "<em>1.1</em> Visualize where developers should purchase availability to help highest latency traffic"
-	dismiss: 4.5
+	dismiss: 5
 	continue: 'notes2'
 ,
 	name: 'notes2'
@@ -159,12 +159,12 @@ Template.home.events
 	continue: 'about'
 ,
 	name: 'about'
-	question: ["What would you like to see?", "Feel free to look around!", "What would you like to know?"]
+	question: ["What would you like to see?", "What would you like to know?", "How can I help?"]
 	response:
 		choices:
 			"Zhenya's CV": 'cv'
-			"A sample of nice code": 'slider'
-			"Source to this app (messy)": 'milkyway'
+			"A nice code sample": 'slider'
+			"This app on GitHub": 'milkyway'
 			"zhenya.co": 'web'
 			"How to pronounce 'Zhenya'?": 'pronounce'
 			"Back": 'back'
@@ -192,7 +192,7 @@ Template.home.events
 ,
 	name: 'feedback'
 	text: "Bugs? Questions? Feedback?<br>Please drop me a line!<br><a href='mailto:eugeneas@gmail.com'>eugeneas@gmail.com</a><br>I'll be happy to hear from you!"
-	dismiss: 3
+	dismiss: 3.5
 	continue: 'galaxylogo'
 ,
 	name: 'galaxylogo'

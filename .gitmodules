@@ -4,3 +4,6 @@
 [submodule "packages/slider"]
 	path = packages/slider
 	url = https://github.com/zhenyasav/slider
+[submodule "packages/reveal"]
+	path = packages/reveal
+	url = https://github.com/zhenyasav/reveal
