@@ -19,7 +19,9 @@
 			<div class="header">
 				<a class="button nav icon-galaxy"></a>
 				<h3 class="title">
-					{{#reveal reactive=false data=currentRoute.title}}{{this}}{{/reveal}}
+					{{#reveal reactive=false data=currentRoute.title}}
+						<a href="http://{{this}}" target="_blank">{{this}}</a>
+					{{/reveal}}
 				</h3>
 				<div class="horizontal menu">
 					{{> menu_items}}
