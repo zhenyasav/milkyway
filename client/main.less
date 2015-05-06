@@ -12,6 +12,10 @@ em {
 	font-weight: 600;
 }
 
+a {
+	text-decoration: none;
+}
+
 .app {
 	height: 100%;
 }
@@ -207,8 +211,13 @@ em {
 	z-index: 100;
 	.user-select(none);
 
-	a {
+	.title a {
 		text-decoration: none;
+		color: @blue;
+
+		&:visited {
+			color: @blue;
+		}
 	}
 
 	>* {
