@@ -11,6 +11,37 @@
 	position: relative;
 	.user-select(none);
 
+	.hint {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 20px;
+		text-align: center;
+		.transition(all 350ms ease-in-out);
+		opacity: 0;
+		.transform(translate3d(0, 10px, 0));
+
+		a {
+			color: @blue;
+			cursor: pointer;
+		}
+
+		.desktop {
+			display: none;
+		}
+
+		.no-touch & .desktop {
+			display: inline;
+		}
+	}
+
+	&.show-hint .hint {
+		
+		.transform(translate3d(0,0,0));
+		opacity: 1;
+		
+	}
+
 	.splash {
 		text-align: center;
 

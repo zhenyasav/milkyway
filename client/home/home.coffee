@@ -14,9 +14,20 @@ greetDay = ->
 
 acquiaintedKey = 'milkyway.acquainted' 
 
+skipIntro = ->
+	Visuals.clear()
+	Visuals.push 'whatnext'
+	$('.home').removeClass 'show-hint'
+
+cancelIntro = (e) ->
+	if e.keyCode is Utils.keys.esc
+		skipIntro()
+
 Template.home.events
 	'click .introduction': -> Visuals.push 'whatnext'
 
+	'click .skip': -> skipIntro()
+		
 [
 	
 	name: 'greeting'
@@ -43,10 +54,15 @@ Template.home.events
 	name: 'intro'
 	continue: 'ilovemeteor'
 	dismiss: 2.3
+	pushed: ->
+		$(window).on 'keyup', cancelIntro
+		$('.home').addClass 'show-hint'
 ,
 	name: 'ilovemeteor'
 	dismiss: 2.3
 	continue: 'evolution'
+	dismissed: ->
+		$('.home').removeClass 'show-hint'
 ,
 	name: 'evolution'
 	dismiss: 3
@@ -119,6 +135,8 @@ Template.home.events
 		repeat: 'intro'
 	pushed: ->
 		$('html').addClass 'presentation'
+		$(window).off 'keyup', cancelIntro
+
 	before: ->
 		if not localStorage[acquiaintedKey]
 			localStorage[acquiaintedKey] = new Date()
